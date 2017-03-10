@@ -7,6 +7,8 @@ export default (entry = './src/index.js', filename = 'bundle.js') =>
     devtool: 'source-map',
     entry: [
       'react-hot-loader/patch',
+      'webpack/hot/dev-server',
+      'webpack-hot-middleware/client',
       entry,
     ],
     output: {
@@ -14,8 +16,16 @@ export default (entry = './src/index.js', filename = 'bundle.js') =>
       filename,
       publicPath: '/',
     },
+    devServer: {
+      hot: true,
+      // enable HMR on the server
+
+      publicPath: '/'
+      // match the output `publicPath`
+    },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
+      new webpack.NamedModulesPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
     ],
     resolve: {

@@ -6,7 +6,7 @@ export default ($props) => {
   // "Action" handlers
   const { handler: updateCount, stream: update$ } = createEventHandler()
 
-  // subscrine to the updates and presist
+  // subscribe to the updates and presist
   update$.subscribe(value => firebase.database().ref('/count').set(value))
 
   // get a stream from our observable count
@@ -14,9 +14,9 @@ export default ($props) => {
     firebase.database().ref('/count').on('value', data => observer.next(data.val()))
   )
 
-  // some other example stream
-  const hello$ = Observable.of('hello');
-  const tick$ = Observable.interval(1000);
+  // some other example streams
+  const hello$ = Observable.of('hello')
+  const tick$ = Observable.interval(1000)
 
   // "Selector"
   return $props.combineLatest(hello$, count$, tick$, (props, hello, count, tick) => ({

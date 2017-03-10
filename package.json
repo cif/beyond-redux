@@ -4,7 +4,7 @@
   "description": "Observable implementation with firebase backend",
   "main": "src/index.js",
   "scripts": {
-    "dev": "babel-node ./webpack.js",
+    "dev": "ENV=dev babel-node ./webpack.js",
     "test": "npm test"
   },
   "author": "",
