@@ -1,13 +1,13 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Observable } from 'rxjs';
 import { setObservableConfig } from 'recompose';
+import rxjsconfig from 'recompose/rxjsObservableConfig'
+import 'antd/lib/style'
+import 'antd/lib/input/style/'
+import 'antd/lib/button/style'
 import App from './containers/App';
 
-setObservableConfig({
-  // Converts a plain ES observable to an RxJS 5 observable
-  fromESObservable: Observable.from
-})
+setObservableConfig(rxjsconfig);
 
 render(
   (<App />),

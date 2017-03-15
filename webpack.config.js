@@ -40,6 +40,13 @@ export default (entry = './src/index.js', filename = 'bundle.js') =>
         { test: /\.css$/, loader: 'style-loader!css-loader' },
         { test: /\.(gif|png|jpe?g)$/i, loader: 'file-loader?name=dist/images/[name].[ext]' },
         { test: /\.(ttf|eot|svg)$/, loader: 'file-loader?name=dist/fonts/[name].[ext]' },
+        { test: /\.less$/,
+          use: [
+            { loader: 'style-loader' },
+            { loader: 'css-loader' },
+            { loader: 'less-loader' }
+          ]
+        }
       ],
     },
   })

@@ -24,8 +24,8 @@ app.get('*', (req, res) => {
 })
 
 compiler.plugin('done', () => {
-  Object.keys(require.cache).forEach((id) => { // eslint-disable-line
-    if (/[/\\]client[/\\]/.test(id)) delete require.cache[id] // eslint-disable-line
+  Object.keys(require.cache).forEach((id) => {
+    if (/[/\\]client[/\\]/.test(id)) delete require.cache[id]
   })
 })
 

@@ -1,31 +1,43 @@
 import React, { PropTypes } from 'react';
 import { mapPropsStream } from 'recompose';
+import { Button, Icon } from 'antd';
 import App$ from '../streams/App$';
 import Hello from '../components/Hello';
+import NodeTextInput from '../components/NodeTextInput';
+
 const App = ({
-  hello,
   count,
+  hello,
   tick,
   updateCount
 }) => (
   <div>
     <h1>Observables rule!</h1>
-    <Hello name={hello} /> not woring?
+    <Hello name={hello} />
     <p>The count is {count}</p>
-    <button onClick={() => updateCount(count + 1)}>+</button>
-    <button onClick={() => updateCount(count - 1)}>-</button>
+    <div>
+      <Button onClick={() => updateCount(count + 1)} icon="plus" type="primary" size="small">
+        Increment
+      </Button>
+      <Button onClick={() => updateCount(count - 1)} icon="minus">
+        Decrement
+      </Button>
+    </div>
+    <NodeTextInput firebaseRef="/test" />
     <p>{tick} tock</p>
   </div>
 )
 
 App.propTypes = {
   hello: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired,
-  updateCount: PropTypes.func.isRequired
+  count: PropTypes.number,
+  updateCount: PropTypes.func.isRequired,
+  tick: PropTypes.number.isRequired
 }
 
 App.defaultProps = {
   hello: 'world',
+  count: 0
 }
 
 export default mapPropsStream(App$)(App)

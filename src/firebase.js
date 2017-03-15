@@ -1,6 +1,6 @@
 import firebase from 'firebase'
-import rxFirebase from 'rx-firebase';
-import { Observable } from 'rxjs';
+// import rxFirebase from 'rx-firebase';
+// import { Observable } from 'rxjs';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyDL18gNNjc2GkjiWEb5Fy5uGuNZUzMOjbY',
@@ -9,8 +9,8 @@ firebase.initializeApp({
   storageBucket: 'observable-demo.appspot.com',
   messagingSenderId: '965919522600'
 })
-//console.log(rxFirebase, firebase);
+// console.log(rxFirebase, firebase);
 // Add observables to firebase
-//rxFirebase.extend(firebase, Observable)
+// rxFirebase.extend(firebase, Observable)
 
 export default firebase
