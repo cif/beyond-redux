@@ -16,15 +16,15 @@ export default ref => (prop$) => {
     )
   })
 
-  // merge database values observables with form field changes
-  const value$ = change$.merge(dbValue$);
-
   // write values to firebase on a debounced timeline
-  value$.debounceTime(300).subscribe(
+  change$.debounceTime(300).subscribe(
     value => firebase.database()
       .ref(ref)
       .set(value)
   )
+
+  // merge database values observables with form field changes
+  const value$ = change$.merge(dbValue$)
 
   return prop$.combineLatest(
     value$,
