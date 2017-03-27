@@ -16,7 +16,6 @@ const TextInput = ({
       value={value}
       size="large"
       autosize
-      addOnBefore="Ya"
     />
   </Input.Group>
 );
