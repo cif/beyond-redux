@@ -1,8 +1,8 @@
 import { createStore } from 'redux'
 import { Observable } from 'rxjs'
 
-const reducer = (state = { hello: 'world' }, action) => {
-  return { ...state, ...action.payload }
+const reducer = (state = { hello: 'this is the balls' }, action) => {
+  return { hello: action.payload }
 }
 
 export const store = createStore(
@@ -11,4 +11,5 @@ export const store = createStore(
   global.__REDUX_DEVTOOLS_EXTENSION__ && global.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
-export const state$ = Observable.from(store)
+export const { dispatch } = store
+export default store //state$ = Observable.from(store)

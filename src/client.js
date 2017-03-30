@@ -1,16 +1,24 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { setObservableConfig } from 'recompose';
+import { setObservableConfig } from 'recompose'
+import { Provider } from 'react-redux'
 import rxjsconfig from 'recompose/rxjsObservableConfig'
+import store from './state/store';
 import 'antd/lib/style'
 import 'antd/lib/input/style/'
 import 'antd/lib/button/style'
 import App from './containers/App';
 
+require('es6-promise').polyfill()
+require('isomorphic-fetch')
+
 setObservableConfig(rxjsconfig);
 
 render(
-  (<App />),
+  (<Provider store={store}>
+    <App />
+   </Provider>
+  ),
   document.getElementById('app')
 )
 

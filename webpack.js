@@ -17,6 +17,15 @@ app.use(webpackDevMiddleware(compiler, {
 }))
 app.use(webpackHotMiddleware(compiler))
 
+app.get('/example', (req, res) => {
+  const exampleJson = {
+    response: 'from the server!'
+  }
+  res.setHeader('Content-Type', 'application/json')
+  res.write(JSON.stringify(exampleJson))
+  res.end()
+})
+
 app.get('*', (req, res) => {
   // eslint-disable-next-line
   res.write(fs.readFileSync(path.join(__dirname, './public/index.html')))

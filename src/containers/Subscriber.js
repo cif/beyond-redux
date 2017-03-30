@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { mapPropsStream } from 'recompose';
+import fusion from './fusion'
 import Subscriber$ from '../streams/Subscriber$';
 
 const Subscriber = ({
@@ -13,4 +13,4 @@ const Subscriber = ({
 Subscriber.propTypes = {
   example: PropTypes.string.isRequired,
 }
-export default mapPropsStream(Subscriber$)(Subscriber)
+export default fusion(Subscriber$, Subscriber)

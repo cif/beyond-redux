@@ -1,9 +1,11 @@
 import { state$ } from '../state/store';
 
-export default ($props) => {
+export default state$ => ($props) => {
   // example global state streams
-  return $props.combineLatest(state$, (props, state) => ({
+
+  const hello$ = state$.pluck('hello');
+  return $props.combineLatest(hello$, (props, hello) => ({
     ...props,
-    example: state.hello
+    example: hello
   }))
 }

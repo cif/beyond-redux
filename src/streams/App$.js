@@ -1,28 +1,49 @@
 import { Observable } from 'rxjs';
 import { createEventHandler } from 'recompose';
+import { createAction } from 'redux-actions';
 import firebase from '../firebase';
-import { store } from '../state/store';
 
-export default ($props) => {
+
+export default (state$, dispatch) => ($props) => {
+
   // "Action" handlers
   const { handler: updateCount, stream: update$ } = createEventHandler()
   const { handler: broadcast, stream: broadcast$ } = createEventHandler()
+  const { handler: stopTimer, stream: stopTimer$ } = createEventHandler()
+  const { handler: requestData, stream: request$ } = createEventHandler()
 
   // subscribe to the updates and persist
   update$.subscribe(value => firebase.database().ref('/count').set(value))
 
-  broadcast$.subscribe(() => {
-    store.dispatch({ type: 'SAY_IT', payload: { hello: 'world... domination!' } });
-  });
+  const doIt = createAction('SAY_IT');
+  broadcast$.debounceTime(300)
+    .map((val) => 'word')
+    .subscribe((val) => dispatch(doIt(val)))
 
   // get a stream from our observable count
   const count$ = Observable.create(observer =>
     firebase.database().ref('/count').on('value', data => observer.next(data ? data.val() : 0))
   )
 
-  // some other example streams
-  const hello$ = Observable.of('world')
-  const tick$ = Observable.interval(1000)
+  console.log(request$)
+  const hello$ = request$
+  .switchMap(v => {
+    console.log('we going things?', v)
+    dispatch({ type: 'LOADING_DATA' })
+    return Observable.fromPromise(global.fetch('/example'))
+  })
+  .flatMap(res => Observable.fromPromise(res.json()))
+  .startWith('loading...')
+
+  console.log('what up here', hello$);
+  // .subscribe(v => {
+  //   console.log('what is my value?', v);
+  //   //console.log('response from server!', v.json());
+  // })
+
+  // some other example streams - subscribed to state!
+  // const hello$ = state$.pluck('hello')
+  const tick$ = Observable.interval(1000).takeUntil(stopTimer$)
 
   // "Selector"
   return $props.combineLatest(hello$, count$, tick$, (props, hello, count, tick) => ({
@@ -30,7 +51,9 @@ export default ($props) => {
     broadcast,
     count,
     tick,
-    hello,
-    updateCount
+    hello: hello.response,
+    updateCount,
+    requestData,
+    stopTimer
   }))
 }
