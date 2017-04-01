@@ -13,4 +13,4 @@ const Subscriber = ({
 Subscriber.propTypes = {
   example: PropTypes.string.isRequired,
 }
-export default fusion(Subscriber$, Subscriber)
+export default fusion(Subscriber$)(Subscriber)

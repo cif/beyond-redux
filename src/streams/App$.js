@@ -4,7 +4,7 @@ import { createAction } from 'redux-actions';
 import firebase from '../firebase';
 
 
-export default (state$, dispatch) => ($props) => {
+export default (state$, dispatch) => (props$) => {
 
   // "Action" handlers
   const { handler: updateCount, stream: update$ } = createEventHandler()
@@ -25,17 +25,15 @@ export default (state$, dispatch) => ($props) => {
     firebase.database().ref('/count').on('value', data => observer.next(data ? data.val() : 0))
   )
 
-  console.log(request$)
   const hello$ = request$
-  .switchMap(v => {
-    console.log('we going things?', v)
-    dispatch({ type: 'LOADING_DATA' })
-    return Observable.fromPromise(global.fetch('/example'))
-  })
-  .flatMap(res => Observable.fromPromise(res.json()))
-  .startWith('loading...')
+    .switchMap((v) => {
+      dispatch({ type: 'LOADING_DATA' })
+      return Observable.fromPromise(global.fetch('/example'))
+    })
+    .flatMap(res => Observable.fromPromise(res.json()))
+    .startWith('Loading...')
 
-  console.log('what up here', hello$);
+
   // .subscribe(v => {
   //   console.log('what is my value?', v);
   //   //console.log('response from server!', v.json());
@@ -46,7 +44,7 @@ export default (state$, dispatch) => ($props) => {
   const tick$ = Observable.interval(1000).takeUntil(stopTimer$)
 
   // "Selector"
-  return $props.combineLatest(hello$, count$, tick$, (props, hello, count, tick) => ({
+  return props$.combineLatest(hello$, count$, tick$, (props, hello, count, tick) => ({
     ...props,
     broadcast,
     count,

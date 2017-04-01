@@ -1,10 +1,35 @@
 import React, { PropTypes } from 'react';
 import { Button } from 'antd';
+import { mapPropsStream, createEventHandler } from 'recompose'
+import { Observable } from 'rxjs'
 import App$ from '../streams/App$'
 import Subscriber from './Subscriber'
 import Hello from '../components/Hello';
 import NodeTextInput from '../components/NodeTextInput';
 import fusion from './fusion';
+
+const stream$ = (props$) => {
+  const { handler, stream: handler$ } = createEventHandler()
+  const timeElapsed$ = Observable
+    .interval(2000)
+    .merge(handler$.map(() => 'clicked!'))
+    .startWith('with you in two seconds...')
+  return props$.combineLatest(timeElapsed$, (props, timeElapsed) => ({
+    ...props,
+    handler,
+    timeElapsed
+  }))
+}
+
+const View = ({ handler, timeElapsed }) => (
+  <div>
+   Time elapsed: {timeElapsed}
+   <button onClick={handler}>Click me</button>
+  </div>
+)
+
+const Timer = mapPropsStream(stream$)(View)
+
 
 class App extends React.Component {
 
@@ -41,6 +66,8 @@ class App extends React.Component {
         <NodeTextInput firebaseRef="/test" />
         <Subscriber />
         <p>{tick} tock</p>
+        <br /><br />
+        <Timer />
       </div>
     )
   }
@@ -87,4 +114,4 @@ App.defaultProps = {
   count: 0
 }
 
-export default fusion(App$, App);
+export default fusion(App$)(App);
