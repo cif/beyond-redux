@@ -6,6 +6,7 @@ import firebase from '../firebase';
 
 export default (state$, dispatch) => (props$) => {
 
+  console.log('props?', props$)
   // "Action" handlers
   const { handler: updateCount, stream: update$ } = createEventHandler()
   const { handler: broadcast, stream: broadcast$ } = createEventHandler()
@@ -28,9 +29,9 @@ export default (state$, dispatch) => (props$) => {
   const hello$ = request$
     .switchMap((v) => {
       dispatch({ type: 'LOADING_DATA' })
-      return Observable.fromPromise(global.fetch('/example'))
+      return Observable.from(global.fetch('/example'))
     })
-    .flatMap(res => Observable.fromPromise(res.json()))
+    .flatMap(res => Observable.from(res.json()))
     .startWith('Loading...')
 
 

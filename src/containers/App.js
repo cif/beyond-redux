@@ -23,8 +23,8 @@ const stream$ = (props$) => {
 
 const View = ({ handler, timeElapsed }) => (
   <div>
-   Time elapsed: {timeElapsed}
-   <button onClick={handler}>Click me</button>
+    Time elapsed: {timeElapsed}
+    <button onClick={handler}>Click me</button>
   </div>
 )
 
@@ -50,7 +50,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <h1>Observables rule!!!!</h1>
+        <h1>Observable Pattern Sandbox</h1>
         <Hello name={hello} />
         <p>The count is {count}</p>
         <div>
@@ -82,7 +82,6 @@ class App extends React.Component {
 //   stopTimer
 // }) => (
 //   <div>
-//     <h1>Observables rule!!!!</h1>
 //     <Hello name={hello} />
 //     <p>The count is {count}</p>
 //     <div>
